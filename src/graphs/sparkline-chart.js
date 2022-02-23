@@ -21,7 +21,7 @@ export default function SparklineGraph(props) {
     var options1 = {
         chart: {
             type: 'line',
-            height: 160,
+            height: 350,
             sparkline: {
                 enabled: true
             },
@@ -30,28 +30,27 @@ export default function SparklineGraph(props) {
             curve: 'straight'
         },
         fill: {
-            opacity: 0.3
+            opacity: 0.8
         },
         xaxis: {
             crosshairs: {
                 width: 1
             },
         },
-        yaxis: {
-            min: 0
-        },
         title: {
             text: Sum(AdultArray),
             offsetX: 0,
             style: {
-                fontSize: '24px',
+                fontSize: '15px',
+                color: "#ffffff"
             }
         },
         subtitle: {
-            text: 'NO. of Adult',
+            text: 'No. of Adult',
             offsetX: 0,
             style: {
-                fontSize: '14px',
+                fontSize: '15px',
+                color: "#ffffff"
             }
         }
     };
@@ -59,7 +58,7 @@ export default function SparklineGraph(props) {
     var options2 = {
         chart: {
             type: 'line',
-            height: 160,
+            height: 350,
             sparkline: {
                 enabled: true
             },
@@ -67,29 +66,28 @@ export default function SparklineGraph(props) {
         stroke: {
             curve: 'straight'
         },
-        fill: {
-            opacity: 0.3
-        },
         xaxis: {
             crosshairs: {
                 width: 1
             },
         },
-        yaxis: {
-            min: 0
+        fill: {
+            opacity: 0.8
         },
         title: {
             text: Sum(childrenArray),
             offsetX: 0,
             style: {
-                fontSize: '24px',
+                fontSize: '15px',
+                color: "#ffffff"
             }
         },
         subtitle: {
-            text: 'No of Children',
+            text: 'No. of Children',
             offsetX: 0,
             style: {
-                fontSize: '14px',
+                fontSize: '15px',
+                color: "#ffffff"
             }
         }
     };
@@ -117,12 +115,8 @@ export default function SparklineGraph(props) {
 
     return (
         <>
-            <div
-                style={{
-                    backgroundColor: "white",
-                    textAlign: "center",
-                }}
-            >
+
+            <div className='container'>
                 <ReactApexChart
                     series={series1}
                     options={options1}
@@ -131,13 +125,7 @@ export default function SparklineGraph(props) {
                     text="Adult"
                 />
             </div>
-            <div
-                style={{
-                    backgroundColor: "white",
-                    textAlign: "center",
-                }}
-            >
-                {console.log(childrenArray)}
+            <div className='container'>
                 <ReactApexChart
                     series={series2}
                     options={options2}
@@ -146,6 +134,13 @@ export default function SparklineGraph(props) {
                     text='Children'
                 />
             </div>
+            <style jsx>{`
+            
+        .container{
+            background: "black";
+        }
+        
+      `}</style>
         </>
     );
 }

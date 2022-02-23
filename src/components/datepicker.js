@@ -44,27 +44,56 @@ export default function Datepicker() {
 
     return (
         <>
-            <div className="center">
-                <h1>Date</h1>
-                <form id="date">
-                    <div className="form-group">
-                        <h3>Start Date</h3>
-                        <DatePicker
-                            selected={startDate}
-                            onChange={handleStartDate}
-                        />
-                        <h3>End Date</h3>
-                        <DatePicker
-                            selected={endDate}
-                            onChange={handleEndDate}
-                        />
-
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <div className='heading'>DATE PICKER</div>
                     </div>
-                </form>
-                <button className="btn btn-primary" onClick={() => DateFunc([convert(`${startDate}`), convert(`${endDate}`)])} >Show Data</button>
+                    <div className="col">
+                        <form id="date">
+                            <div>
+                                <div className="subheading">Start Date</div>
+                                <DatePicker
+                                    selected={startDate}
+                                    onChange={handleStartDate}
+                                />
+                                <div className="subheading">End Date</div>
+                                <DatePicker
+                                    selected={endDate}
+                                    onChange={handleEndDate}
+                                />
+
+                            </div>
+                        </form>
+                    </div>
+                    <div className="col">
+                        <button className="btn btn-primary" onClick={() => DateFunc([convert(`${startDate}`), convert(`${endDate}`)])} >Show Data</button>
+                    </div>
+                </div>
                 {/* {console.log(convert(`${startDate}`))}
                 {console.log(convert(`${endDate}`))} */}
             </div>
+            <style jsx>{`
+        .container {
+          width: 40%;
+          margin-top: 25px;
+          overflow: hidden;
+          margin-bottom:25px;
+        }
+        .heading{
+            color:#ffffff;
+            margin-left:30%;
+            margin-top: 12%;
+            font-size: 20px;
+        }
+        .subheading{
+            color:#ffffff;
+            font-size: 15px;
+        }
+        .btn{
+            margin-top:12%
+        }
+      `}</style>
         </>
     )
 }

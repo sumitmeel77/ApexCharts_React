@@ -13,6 +13,14 @@ export default function ColumnGraph(props) {
         chart: {
             height: 350,
             type: 'bar',
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            }
         },
         plotOptions: {
             bar: {
@@ -20,6 +28,16 @@ export default function ColumnGraph(props) {
                 dataLabels: {
                     position: 'top', // top, center, bottom
                 },
+            }
+        },
+        title: {
+            text: 'Column Chart graph',
+            align: 'center',
+            position: 'top',
+            style: {
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color: '#ffffff'
             }
         },
         dataLabels: {
@@ -36,7 +54,6 @@ export default function ColumnGraph(props) {
 
         xaxis: {
             categories: CountryArray,
-            position: 'top',
             axisBorder: {
                 show: false
             },
@@ -73,15 +90,6 @@ export default function ColumnGraph(props) {
                 }
             }
 
-        },
-        title: {
-            text: 'Number of visitors per country',
-            floating: true,
-            offsetY: 330,
-            align: 'center',
-            style: {
-                color: '#444'
-            }
         }
     };
     useEffect(() => {
@@ -107,18 +115,21 @@ export default function ColumnGraph(props) {
     }, [props.state])
 
     return (
-        <div
-            style={{
-                backgroundColor: "white",
-                textAlign: "center",
-            }}
-        >
-            <ReactApexChart
-                series={series}
-                options={options}
-                type="bar"
-                height={350}
-            />
-        </div>
+        <>
+            <div className='container'>
+                <ReactApexChart
+                    series={series}
+                    options={options}
+                    type="bar"
+                    height={350}
+                />
+            </div>
+            <style jsx>{`
+        .container{
+            width: "60%";
+            background: "black";
+        }
+      `}</style>
+        </>
     );
 }

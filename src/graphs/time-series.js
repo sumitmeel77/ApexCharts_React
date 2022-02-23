@@ -33,7 +33,12 @@ export default function TimeSeriesGraph(props) {
         },
         title: {
             text: 'Time Series graph',
-            align: 'left'
+            align: 'center',
+            style: {
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color: '#ffffff'
+            }
         },
         fill: {
             type: 'gradient',
@@ -53,6 +58,11 @@ export default function TimeSeriesGraph(props) {
                     month: "MMM 'yy",
                     day: 'dd MMM',
                 },
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    cssClass: 'apexcharts-xaxis-label',
+                }
             },
         },
         tooltip: {
@@ -84,21 +94,22 @@ export default function TimeSeriesGraph(props) {
     }, [props.state])
 
     return (
-        <div
-            style={{
-                backgroundColor: "white",
-                textAlign: "center",
-            }}
-        >
-            <br />
-            <h2>Graphs</h2>
-            <br />
-            <ReactApexChart
-                options={options}
-                series={series}
-                type="area"
-                height={350}
-            />
-        </div>
+        <>
+            <div className='container'>
+                <ReactApexChart
+                    options={options}
+                    series={series}
+                    type="area"
+                    height={350}
+                />
+            </div>
+            <style jsx>{`
+        .container{
+            width: "60%";
+            background: "black";
+        }
+      `}</style>
+        </>
+
     );
 }
