@@ -1,9 +1,9 @@
-function App() {
+import React from 'react'
+import TimeSeriesGraph from './graphs/time-series'
+export default function App() {
   return (
-    <div>
-      hellooo
-    </div>
-  );
+    <>
+      <TimeSeriesGraph />
+    </>
+  )
 }
-
-export default App;

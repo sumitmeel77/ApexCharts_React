@@ -17,10 +17,34 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get("/api/getData", async (req, res) => {
+function TimeSeries(data) {
+    let NumberArray = []
+    let DateArray = []
+    let date = ""
+    let count = 0
+    for (let i = 0; i < data.length; i++) {
+        if ((data[i].arrival_date_month + "/" + data[i].arrival_date_day_of_month + "/" + data[i].arrival_date_year) == date) {
+            count = count + data[i].adults + data[i].children + data[i].babies
+        } else {
+            if (date != "") {
+                NumberArray.push(count)
+                DateArray.push(date)
+                date = data[i].arrival_date_month + "/" + data[i].arrival_date_day_of_month + "/" + data[i].arrival_date_year;
+                count = data[i].adults + data[i].children + data[i].babies
+            } else {
+                date = data[i].arrival_date_month + "/" + data[i].arrival_date_day_of_month + "/" + data[i].arrival_date_year;
+                count = data[i].adults + data[i].children + data[i].babies
+            }
+
+        }
+    }
+    return ([NumberArray, DateArray])
+}
+app.get("/api/timeseries", async (req, res) => {
     try {
         const data = await Data.find()
-        res.json({ status: data })
+        const output = TimeSeries(data)
+        res.json({ status: output })
     } catch (error) {
         res.json({ status: error })
     }
