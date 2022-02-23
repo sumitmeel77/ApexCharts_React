@@ -40,6 +40,19 @@ function TimeSeries(data) {
     }
     return ([NumberArray, DateArray])
 }
+
+function SparklineChart(data) {
+    let AdultArray = []
+    let ChildrenArray = []
+
+    for (let i = 0; i < data.length; i++) {
+        AdultArray.push(data[i].adults)
+        ChildrenArray.push(data[i].children)
+    }
+    return ([AdultArray, ChildrenArray])
+}
+
+
 function ColumnChart(data) {
     let tempArray = []
 
@@ -60,6 +73,7 @@ function ColumnChart(data) {
     }
     return ([NumberArray, CountryArray])
 }
+
 app.get("/api/timeseries", async (req, res) => {
     try {
         const data = await Data.find()
@@ -75,6 +89,16 @@ app.get("/api/columnChart", async (req, res) => {
     try {
         const data = await Data.find()
         const output = ColumnChart(data)
+        res.json({ status: output })
+    } catch (error) {
+        res.json({ status: error })
+    }
+
+})
+app.get("/api/sparklineChart", async (req, res) => {
+    try {
+        const data = await Data.find()
+        const output = SparklineChart(data)
         res.json({ status: output })
     } catch (error) {
         res.json({ status: error })
