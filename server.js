@@ -40,10 +40,41 @@ function TimeSeries(data) {
     }
     return ([NumberArray, DateArray])
 }
+function ColumnChart(data) {
+    let tempArray = []
+
+    for (let i = 0; i < data.length; i++) {
+        tempArray.push(data[i].country)
+    }
+    let CountryArray = [...new Set(tempArray)]
+    let NumberArray = []
+
+    for (let i = 0; i < CountryArray.length; i++) {
+        let count = 0;
+        for (let j = 0; j < data.length; j++) {
+            if (data[j].country == CountryArray[i]) {
+                count = count + data[j].adults + data[j].children + data[j].babies
+            }
+        }
+        NumberArray.push(count)
+    }
+    return ([NumberArray, CountryArray])
+}
 app.get("/api/timeseries", async (req, res) => {
     try {
         const data = await Data.find()
         const output = TimeSeries(data)
+        res.json({ status: output })
+    } catch (error) {
+        res.json({ status: error })
+    }
+
+})
+
+app.get("/api/columnChart", async (req, res) => {
+    try {
+        const data = await Data.find()
+        const output = ColumnChart(data)
         res.json({ status: output })
     } catch (error) {
         res.json({ status: error })
