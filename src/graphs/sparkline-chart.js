@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactApexChart from "react-apexcharts"
 
-
 function Sum(arr) {
     let sum = 0
     for (let i = 0; i < arr.length; i++) {
@@ -9,7 +8,7 @@ function Sum(arr) {
     }
     return (sum)
 }
-export default function SparklineGraph() {
+export default function SparklineGraph(props) {
     const [AdultArray, setAdultArray] = useState([])
     const [childrenArray, setChildrenArray] = useState([])
 
@@ -97,13 +96,24 @@ export default function SparklineGraph() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch('http://localhost:5000/api/sparklineChart');
-            const output = await response.json(response);
+            const startDate = props.state[0]
+            const endDate = props.state[1]
+            const output = await fetch("http://localhost:5000/api/sparklineChart", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    startDate,
+                    endDate
+                })
+            }
+            ).then((res) => res.json())
             setAdultArray(output.status[0])
             setChildrenArray(output.status[1])
         }
         fetchData();
-    }, [])
+    }, [props.state])
 
     return (
         <>

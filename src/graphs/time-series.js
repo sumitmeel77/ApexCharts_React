@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactApexChart from "react-apexcharts"
 
-export default function TimeSeriesGraph() {
+export default function TimeSeriesGraph(props) {
     const [DateArray, setDateArray] = useState([])
     const [totalNumber, setTotalNumber] = useState([])
 
@@ -63,13 +63,25 @@ export default function TimeSeriesGraph() {
     };
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch('http://localhost:5000/api/timeseries');
-            const output = await response.json(response);
+
+            const startDate = props.state[0]
+            const endDate = props.state[1]
+            const output = await fetch("http://localhost:5000/api/timeseries", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    startDate,
+                    endDate
+                })
+            }
+            ).then((res) => res.json())
             setTotalNumber(output.status[0])
             setDateArray(output.status[1])
         }
         fetchData();
-    }, [])
+    }, [props.state])
 
     return (
         <div

@@ -17,6 +17,20 @@ app.use(cors());
 
 app.use(express.json());
 
+
+function dateCheck(from, to, check) {
+
+    var fDate, lDate, cDate;
+    fDate = Date.parse(from);
+    lDate = Date.parse(to);
+    cDate = Date.parse(check);
+
+    if ((cDate <= lDate && cDate >= fDate)) {
+        return true;
+    }
+    return false;
+}
+
 function TimeSeries(data) {
     let NumberArray = []
     let DateArray = []
@@ -74,10 +88,25 @@ function ColumnChart(data) {
     return ([NumberArray, CountryArray])
 }
 
-app.get("/api/timeseries", async (req, res) => {
+function QueryDate(data, startDate, endDate) {
+    let out = []
+    for (let i = 0; i < data.length; i++) {
+        if (dateCheck(startDate, endDate, data[i].arrival_date_day_of_month + "/" + data[i].arrival_date_month + "/" + data[i].arrival_date_year)) {
+            out.push(data[i])
+        }
+
+    }
+    return (out)
+}
+
+app.post("/api/timeseries", async (req, res) => {
+
+    const { startDate, endDate } = req.body;
+
     try {
         const data = await Data.find()
-        const output = TimeSeries(data)
+        const dateData = QueryDate(data, startDate, endDate)
+        const output = TimeSeries(dateData)
         res.json({ status: output })
     } catch (error) {
         res.json({ status: error })
@@ -85,20 +114,28 @@ app.get("/api/timeseries", async (req, res) => {
 
 })
 
-app.get("/api/columnChart", async (req, res) => {
+app.post("/api/columnChart", async (req, res) => {
+
+    const { startDate, endDate } = req.body;
+
     try {
         const data = await Data.find()
-        const output = ColumnChart(data)
+        const dateData = QueryDate(data, startDate, endDate)
+        const output = ColumnChart(dateData)
         res.json({ status: output })
     } catch (error) {
         res.json({ status: error })
     }
 
 })
-app.get("/api/sparklineChart", async (req, res) => {
+app.post("/api/sparklineChart", async (req, res) => {
+
+    const { startDate, endDate } = req.body;
+
     try {
         const data = await Data.find()
-        const output = SparklineChart(data)
+        const dateData = QueryDate(data, startDate, endDate)
+        const output = SparklineChart(dateData)
         res.json({ status: output })
     } catch (error) {
         res.json({ status: error })

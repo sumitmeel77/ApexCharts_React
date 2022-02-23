@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactApexChart from "react-apexcharts"
-
-export default function ColumnGraph() {
+export default function ColumnGraph(props) {
     const [CountryArray, setCountryArray] = useState([])
     const [totalNumber, setTotalNumber] = useState([])
 
@@ -87,13 +86,25 @@ export default function ColumnGraph() {
     };
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch('http://localhost:5000/api/columnChart');
-            const output = await response.json(response);
+
+            const startDate = props.state[0]
+            const endDate = props.state[1]
+            const output = await fetch("http://localhost:5000/api/columnChart", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    startDate,
+                    endDate
+                })
+            }
+            ).then((res) => res.json())
             setTotalNumber(output.status[0])
             setCountryArray(output.status[1])
         }
         fetchData();
-    }, [])
+    }, [props.state])
 
     return (
         <div
